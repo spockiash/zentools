@@ -1,0 +1,39 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local Python distribution files
+pip-wheel-metadata/
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# Test coverage directory
+.coverage/
+
+# Distribution & packaging
+*.egg
+*.egg-info
+dist
+build
+
+# pyenv
+.python-version
