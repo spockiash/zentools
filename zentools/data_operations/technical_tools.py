@@ -62,7 +62,7 @@ def add_rsi(data: pd.DataFrame, period: int = 14):
         return data
 
     # Calculate percentage price changes (delta)
-    delta = data['Close'].pct_change()
+    delta = data['Close'].diff()
 
     # Separate gains and losses
     gains = delta.where(delta > 0, 0)
@@ -97,7 +97,7 @@ def add_ewm_rsi(data: pd.DataFrame, period: int = 14):
         return data
 
     # Calculate percentage price changes (delta)
-    delta = data['Close'].pct_change()
+    delta = data['Close'].diff()
 
     # Separate gains and losses
     gains = delta.where(delta > 0, 0)
