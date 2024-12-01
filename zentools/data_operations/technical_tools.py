@@ -43,3 +43,74 @@ def add_macd(data: pd.DataFrame, fast_period: int, slow_period: int, signal_peri
 
     return data
 
+def add_rsi(data: pd.DataFrame, period: int = 14):
+    """
+    Adds RSI (Relative Strength Index) calculations to a DataFrame.
+
+    This function computes the RSI for the given closing price data and appends it as a new column to the DataFrame.
+
+    Args:
+       data (pd.DataFrame): The input DataFrame containing a 'Close' column with closing prices.
+       period (int): The period for calculating RSI (default is 14).
+
+    Returns:
+       pd.DataFrame: The input DataFrame with an additional 'RSI' column.
+   """
+    # Ensure DataFrame does not contain any NaN values in the 'Close' column
+    if data['Close'].isnull().any():
+        # TODO: raise exception
+        return data
+
+    # Calculate percentage price changes (delta)
+    delta = data['Close'].pct_change()
+
+    # Separate gains and losses
+    gains = delta.where(delta > 0, 0)
+    losses = delta.where(delta < 0, 0)
+
+    # Calculate average gains and losses for the period
+    avg_gain = gains.rolling(period, min_periods=1).mean()
+    avg_loss = losses.rolling(period, min_periods=1).mean()
+    # Calculate the relative strength
+    rs = avg_gain / avg_loss
+
+    # Calculate RSI
+    data['RSI'] = 100 - (100 / (1 + rs))
+    return data
+
+def add_ewm_rsi(data: pd.DataFrame, period: int = 14):
+    """
+    Adds smoothed RSI (Relative Strength Index) calculations to a DataFrame.
+
+    This function computes the RSI for the given closing price data and appends it as a new column to the DataFrame.
+
+    Args:
+       data (pd.DataFrame): The input DataFrame containing a 'Close' column with closing prices.
+       period (int): The period for calculating RSI (default is 14).
+
+    Returns:
+       pd.DataFrame: The input DataFrame with an additional 'RSI' column.
+   """
+    # Ensure DataFrame does not contain any NaN values in the 'Close' column
+    if data['Close'].isnull().any():
+        # TODO: raise exception
+        return data
+
+    # Calculate percentage price changes (delta)
+    delta = data['Close'].pct_change()
+
+    # Separate gains and losses
+    gains = delta.where(delta > 0, 0)
+    losses = delta.where(delta < 0, 0)
+
+    # Calculate average gains and losses for the period
+    avg_gain = gains.ewm(span=period, adjust=False).mean()  # Exponentially weighted mean of gains
+    avg_loss = losses.ewm(span=period, adjust=False).mean()  # Exponentially weighted mean of losses
+    # Calculate the relative strength
+    rs = avg_gain / avg_loss
+
+    # Calculate RSI
+    data['RSI'] = 100 - (100 / (1 + rs))
+    return data
+
+

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="zentools",
-    version="0.1.1",
+    version="0.1.12",
     description="A library for algorithmic analysis using Pandas and NumPy",
     author="Bobo",
     author_email="theb02b04@gmail.com",
