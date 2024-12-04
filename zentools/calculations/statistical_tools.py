@@ -6,3 +6,4 @@ def variance(a, b):
 
 def standard_deviation(a, b):
     return math.sqrt(variance(a, b))
+
